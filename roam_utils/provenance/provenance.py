@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import os
 import shutil
-from roam_learning.path_generator import PathGenerator
+from roam_utils.provenance.path_generator import PathGenerator
 
 
 def save_svn(experiment_dir, experiment_no):

@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import inspect
-from roam_learning.path_generator import PathGenerator
+from roam_utils.provenance.path_generator import PathGenerator
 import logging
 import multiprocessing
 
