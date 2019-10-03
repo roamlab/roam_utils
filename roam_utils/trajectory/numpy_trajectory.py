@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from roam_learning.path_generator import PathGenerator
-from roam_learning.helper_functions.trajectory.trajectory import Trajectory
+from roam_utils.provenance.path_generator import PathGenerator
+from roam_utils.trajectory.trajectory import Trajectory
 from sklearn.externals import joblib
 
 

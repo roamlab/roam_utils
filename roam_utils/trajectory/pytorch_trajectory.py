@@ -1,8 +1,8 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import torch
 import numpy as np
-from roam_learning.helper_functions.trajectory.trajectory import Trajectory
-from roam_learning.pytorch_device import PytorchDevice
+from roam_utils.trajectory.trajectory import Trajectory
+from roam_utils.pytorch_device import PytorchDevice
 
 
 class PytorchTrajectory(Trajectory, PytorchDevice):

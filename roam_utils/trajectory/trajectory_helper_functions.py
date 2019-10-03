@@ -1,8 +1,8 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import ast
 import numpy as np
-from roam_learning.helper_functions.trajectory.numpy_trajectory import NumpyTrajectory
-from roam_learning.path_generator import PathGenerator
+from roam_utils.trajectory.numpy_trajectory import NumpyTrajectory
+from roam_utils.provenance.path_generator import PathGenerator
 
 
 def get_trajectory_from_path(path):
