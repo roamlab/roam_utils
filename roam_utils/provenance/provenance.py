@@ -1,13 +1,5 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
-import os
 import shutil
-from roam_utils.provenance.path_generator import PathGenerator
-
-
-def save_svn(experiment_dir, experiment_no):
-    # saves svn info into experiment folder
-    os.system('svn info ' + os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-              + ' > ' + str(PathGenerator.get_svn_info_pathname(experiment_dir, experiment_no)))
+from roam_utils.provenance import PathGenerator
 
 
 def copy_config(config_path, new_dir):

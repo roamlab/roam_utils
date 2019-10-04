@@ -1,12 +1,11 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
 import torch
 import numpy as np
-from roam_utils.trajectory.trajectory import Trajectory
+from roam_utils.trajectory import Trajectory
 from roam_utils.pytorch_device import PytorchDevice
 
 
 class PytorchTrajectory(Trajectory, PytorchDevice):
-    def __init__(self, horizon, state_dim, action_dim, cost_object=None):
+    def __init__(self, horizon, state_dim, action_dim, cost_calculator=None):
         Trajectory.__init__(self)
         PytorchDevice.__init__(self)
         self.X = torch.zeros([horizon, state_dim, 1], requires_grad=True).to(self.device)
@@ -15,9 +14,13 @@ class PytorchTrajectory(Trajectory, PytorchDevice):
 
     def initialize(self, horizon, state_dim, action_dim, cost_calculator=None):
         Trajectory.initialize(self, horizon, state_dim, action_dim, cost_calculator)
-        PytorchDevice.initialize(self)
+        # PytorchDevice.initialize(config_data, section_name)
+        # Cannot call initialize as config_data and section_name are not available. This is be cause Trajectory no
+        # Trajectory's initialize() no longer takes config_data as arguments
 
-    def update_cost(self, x, u):
+        # Until this is fixed, PytorchTrajectory will use GPU if the machine as one setup, else CPU
+
+    def update_cost(self, x, u, x_pre=None):
         """
 
         Args:
@@ -26,7 +29,7 @@ class PytorchTrajectory(Trajectory, PytorchDevice):
         Returns:
 
         """
-        step_cost = self.cost_object.get_l(x, u)
+        step_cost = self.cost_calculator.get_l(x, u)
         self.cost += step_cost
 
     def set_X_idx(self, x, idx):
@@ -59,7 +62,7 @@ class PytorchTrajectory(Trajectory, PytorchDevice):
         self.improved = improved
 
     def reset_cost(self):
-        self.cost = self.cost_object.get_l(self.X[0], self.U[0])
+        self.cost = self.cost_calculator.get_l(self.X[0], self.U[0])
 
     def reset_X(self):
         x0 = self.X[0]

@@ -1,12 +1,12 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
+from . import LibraryOperations
 
 
-class NumpyOperations(object):
-    def __init__(self):
+class NumpyOperations(LibraryOperations):
+
+    def __init__(self, config_data, section_name):
+        super().__init__()
         self.device = None
-
-    def initialize_from_config(self, config_data, section_name):
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')
         else:
