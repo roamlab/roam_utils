@@ -1,11 +1,8 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-
 class LibraryOperations(object):
     def __init__(self):
         pass
 
-    def initialize_from_config(self, config_data):
+    def initialize_from_config(self, config_data, section_name):
         raise NotImplementedError
 
     def stack_label_list(self, labels):

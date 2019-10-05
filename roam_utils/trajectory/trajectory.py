@@ -1,6 +1,3 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-
 class Trajectory(object):
     def __init__(self, X=None, U=None, cost_calculator=None, time_array=None):
         super(Trajectory, self).__init__()

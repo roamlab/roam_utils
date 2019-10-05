@@ -10,18 +10,8 @@ packages=[package for package in find_packages()
                 if package.startswith('roam_utils')],
 install_requires = [
     'numpy',
-    'scipy',
-    'scikit-learn',
-    'pandas',
-    'matplotlib',
-    'tqdm',
-    'coverage',
-    'bokeh',
-    'selenium',
-    'pillow',
-    'configparser',
     'torch',
-    'torchvision',
-    'filelock',
+    'matplotlib',
+    'configparser',
    ]
 )

@@ -4,10 +4,8 @@ import numpy as np
 
 
 class PytorchOperations(object):
-    def __init__(self):
+    def __init__(self, config_data, section_name):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    def initialize_from_config(self, config_data, section_name):
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')
         else:

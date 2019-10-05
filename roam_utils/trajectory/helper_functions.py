@@ -1,8 +1,7 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
 import ast
 import numpy as np
-from roam_utils.trajectory.numpy_trajectory import NumpyTrajectory
-from roam_utils.provenance.path_generator import PathGenerator
+from roam_utils.trajectory import NumpyTrajectory
+from roam_utils.provenance import PathGenerator
 
 
 def get_trajectory_from_path(path):
@@ -118,7 +117,6 @@ def render_trajectory_dict_live(trajectory_dict, save_dir, gui):
         gui.save_frame(save_path)
 
 
-
 def render_trajectory(trajectory, save_dir, gui):
     state_sequence = trajectory.get_X_copy()
     for i in range(len(state_sequence)):
@@ -132,14 +130,11 @@ def render_trajectory_live(trajectory, save_dir, gui):
     x0 = trajectory.get_x_copy(0)
     U = trajectory.get_U_copy()
     gui.subject.set_state(x0)
-    #time.sleep(.001)
-    #print('len_u'), len(U)
     for i in range(len(U)):
         gui.subject.take_action(U[i])
         gui.render()
         save_path = PathGenerator.get_gui_render_path(save_dir, i)
         gui.save_frame(save_path)
-
 
 
 
