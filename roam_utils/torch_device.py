@@ -1,8 +1,7 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
 import torch
 
 
-class PytorchDevice(object):
+class TorchDevice(object):
 
     def __init__(self):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

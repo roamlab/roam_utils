@@ -1,9 +1,9 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
 import torch
 import numpy as np
 
 
-class PytorchOperations(object):
+class TorchOperations(object):
+    
     def __init__(self, config_data, section_name):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         if config_data.has_option(section_name, 'random_seed'):
@@ -72,7 +72,7 @@ class PytorchOperations(object):
                 converted_list.append(torch.from_numpy(item).float().to(self.device))
             else:
                 raise ValueError(
-                    'item is a list of type {}. This is not supported by pytorch_forward_model conversion'.format(
+                    'item is a list of type {}. This is not supported by torch_forward_model conversion'.format(
                         type(item)))
         return tuple(converted_list)
 
