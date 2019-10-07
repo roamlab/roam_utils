@@ -1,13 +1,13 @@
 import torch
 import numpy as np
 from roam_utils.trajectory import Trajectory
-from roam_utils.pytorch_device import PytorchDevice
+from roam_utils.torch_device import TorchDevice
 
 
-class PytorchTrajectory(Trajectory, PytorchDevice):
+class TorchTrajectory(Trajectory, TorchDevice):
     def __init__(self, horizon, state_dim, action_dim, cost_calculator=None):
         Trajectory.__init__(self)
-        PytorchDevice.__init__(self)
+        TorchDevice.__init__(self)
         self.X = torch.zeros([horizon, state_dim, 1], requires_grad=True).to(self.device)
         self.U = torch.zeros([horizon-1, action_dim, 1], requires_grad=True).to(self.device)
         self.cost_array = torch.zeros([horizon, 1], requires_grad=False)
