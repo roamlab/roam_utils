@@ -1,58 +1,7 @@
 import os
 import time
 from datetime import datetime
-
-
-def make_dir(path):
-    # recursive function to create directory
-    if not os.path.exists(path):
-        # try:
-        #     head, tail = os.path.split(path)
-        # except:
-        #     raise ValueError('the directory you are trying to create is impossible')
-        #
-        # while not os.path.exists(head):
-        #     make_dir(head)
-        os.makedirs(os.path.join(path), exist_ok=True)
-    return path
-
-
-def get_max_dirno(path, keyword):
-    if not os.path.exists(path):
-        return None
-    subdirs = [subdirs for subdirs in os.listdir(path) if os.path.isdir(os.path.join(path, subdirs))]
-    epoch_subdirs = [subdir for subdir in subdirs if keyword in subdir]
-    epoch_nos = [int(epoch_subdir.split('_')[-1]) for epoch_subdir in epoch_subdirs]
-    if epoch_nos:
-        return max(epoch_nos)
-    return None
-
-
-def get_max_fileno(path, keyword):
-    if not os.path.exists(path):
-        return None
-    filenames = [filename for filename in os.listdir(path) if os.path.isfile(os.path.join(path, filename))]
-    node_list_files = [filename for filename in filenames if keyword in filename]
-    filenos = [int((node_list_file.split('_')[-1]).split('.')[0]) for node_list_file in node_list_files]
-    if filenos:
-        return max(filenos)
-    return None
-
-
-def get_file_of_specific_extension_from_dir(any_dir, ext):
-    num_files_with_ext = 0
-    file_path = None
-    for file in os.listdir(any_dir):
-        if ext in file:
-            file_path = os.path.join(any_dir, file)
-            num_files_with_ext += 1
-    if num_files_with_ext > 1:
-        raise ValueError('dir: {} contains more than one file with ext: {}, '
-                         'no convention for choosing which one'.format(any_dir, ext))
-    if file_path is None:
-        raise ValueError('no file with ext: {} found in dir: {}. '
-                         'The path being returned is none, must be looking in the wrong directory'.format(ext, any_dir))
-    return file_path
+from . import directory_helpers as dh
 
 
 class PathGenerator(object):
@@ -69,17 +18,17 @@ class PathGenerator(object):
 
     @staticmethod
     def get_max_dirno(path, keyword):
-        return get_max_dirno(path, keyword)
+        return dh.get_max_dirno(path, keyword)
 
     @staticmethod
     def get_max_fileno(path, keyword):
-        return get_max_fileno(path, keyword)
+        return dh.get_max_fileno(path, keyword)
 
     @staticmethod
     def get_save_dir(experiment_dir):
         # returns save directory for an experiment
         save_dir = os.path.join(experiment_dir, 'save')
-        make_dir(save_dir)
+        dh.make_dir(save_dir)
         return save_dir
 
     @staticmethod
@@ -90,12 +39,12 @@ class PathGenerator(object):
     def get_experiment_dir(path_to_experiment_dir, robot_name, experiment_type, experiment_no):
         experiment_dir = os.path.join(path_to_experiment_dir, 'experiments', robot_name, experiment_type,
                                       'experiment_{}'.format(str(experiment_no).zfill(3)))
-        make_dir(experiment_dir)
+        dh.make_dir(experiment_dir)
         return experiment_dir
 
     @staticmethod
     def make_dir(path):
-        return make_dir(path)
+        return dh.make_dir(path)
 
     @staticmethod
     def get_custom_path(directory, name, ext):
@@ -105,17 +54,17 @@ class PathGenerator(object):
     def get_plot_dir(experiment_dir, plot_no=None):
         plot_dir = os.path.join(experiment_dir, 'plots')
         if plot_no is None:
-            plot_no = get_max_dirno(plot_dir, 'plot')
+            plot_no = dh.get_max_dirno(plot_dir, 'plot')
             if plot_no is None: plot_no = 0
             plot_no += 1
         plot_dir = os.path.join(plot_dir, 'plot_'+str(plot_no).zfill(5))
-        make_dir(plot_dir)
+        dh.make_dir(plot_dir)
         return plot_dir
 
     @staticmethod
     def get_dft_plot_dir(experiment_dir):
         directory = os.path.join(experiment_dir, 'dft_analysis_plots')
-        make_dir(directory)
+        dh.make_dir(directory)
         return directory
     ##################################################
     ################### CONFIGS ######################
@@ -123,15 +72,15 @@ class PathGenerator(object):
 
     @staticmethod
     def get_config_from_dir(any_dir):
-        return get_file_of_specific_extension_from_dir(any_dir, '.cfg')
+        return dh.get_file_of_specific_extension_from_dir(any_dir, '.cfg')
 
     @staticmethod
     def get_svg_from_dir(any_dir):
-        return get_file_of_specific_extension_from_dir(any_dir, '.svg')
+        return dh.get_file_of_specific_extension_from_dir(any_dir, '.svg')
 
     @staticmethod
     def get_png_from_dir(any_dir):
-        return get_file_of_specific_extension_from_dir(any_dir, '.png')
+        return dh.get_file_of_specific_extension_from_dir(any_dir, '.png')
 
     @staticmethod
     def get_config_pathname(load_dir, experiment_no):
@@ -151,11 +100,11 @@ class PathGenerator(object):
         algorithm_dir = os.path.join(path_to_experiment_dir, 'experiments', robot_name,
                                      '{}_predictors'.format(direction), algorithm_name)
         if predictor_no is None:
-            max_dir_no = get_max_dirno(algorithm_dir, 'predictor')
+            max_dir_no = dh.get_max_dirno(algorithm_dir, 'predictor')
             if max_dir_no is None: max_dir_no = 0
             predictor_no = max_dir_no+1
         experiment_dir = os.path.join(algorithm_dir,'predictor_' + str(predictor_no).zfill(2))
-        make_dir(experiment_dir)
+        dh.make_dir(experiment_dir)
         return experiment_dir
 
     ##################################################
@@ -164,7 +113,7 @@ class PathGenerator(object):
     @staticmethod
     def get_trajectory_optimizer_dir(experiment_dir):
         traj_dir = os.path.join(experiment_dir, 'trajectory_optimizer_save')
-        make_dir(traj_dir)
+        dh.make_dir(traj_dir)
         return traj_dir
 
     @staticmethod
@@ -177,19 +126,19 @@ class PathGenerator(object):
     @staticmethod
     def get_record_sim_dir(experiment_dir):
         record_sim_dir = os.path.join(experiment_dir, 'pngs')
-        make_dir(record_sim_dir)
+        dh.make_dir(record_sim_dir)
         return record_sim_dir
 
     @staticmethod
     def get_serpenoid_curve_experiment_dir(experiments_dir, robot_name, experiment_no=None, experiment_name='experiment'):
         experiments_dir = os.path.join(experiments_dir, 'experiments', robot_name, 'serpenoid_curve')
-        make_dir(experiments_dir)
+        dh.make_dir(experiments_dir)
         if experiment_no is None:
-            experiment_no = get_max_dirno(experiments_dir, experiment_name+'_')
+            experiment_no = dh.get_max_dirno(experiments_dir, experiment_name+'_')
             if experiment_no is None: experiment_no = 0
             experiment_no += 1
         experiments_dir = os.path.join(experiments_dir, experiment_name + '_' + str(experiment_no).zfill(5))
-        make_dir(experiments_dir)
+        dh.make_dir(experiments_dir)
         return experiments_dir
 
     @staticmethod
@@ -199,7 +148,7 @@ class PathGenerator(object):
         if trajectory_no is not None:
             trajectory_dir_name = trajectory_dir_name + '_'+str(trajectory_no).zfill(5)
         trajectory_dir = os.path.join(trajectory_dir, trajectory_dir_name)
-        make_dir(trajectory_dir)
+        dh.make_dir(trajectory_dir)
         return trajectory_dir
 
     @staticmethod
@@ -235,13 +184,13 @@ class PathGenerator(object):
     def get_new_trajectory_dir(experiment_dir, trajectory_name=None):
         trajectory_base_dir = os.path.join(experiment_dir, 'trajectories')
         trajectory_dir_name = 'trajectory_' + str(trajectory_name) if (trajectory_name is not None) else 'trajectory'
-        make_dir(trajectory_base_dir)
-        numstr = get_max_dirno(trajectory_base_dir, trajectory_dir_name)
+        dh.make_dir(trajectory_base_dir)
+        numstr = dh.get_max_dirno(trajectory_base_dir, trajectory_dir_name)
         if numstr is None: numstr = 0
         numstr += 1
         trajectory_dir_name = trajectory_dir_name+'_'+str(numstr).zfill(5)
         new_dir = os.path.join(trajectory_base_dir, trajectory_dir_name)
-        make_dir(new_dir)
+        dh.make_dir(new_dir)
         return new_dir
 
     @staticmethod
@@ -315,7 +264,7 @@ class PathGenerator(object):
         if (use_timestamp_in_path):
             timestr = time.strftime("%Y%m%d-%H%M%S")
             plot_dir = os.path.join(plot_dir, timestr)
-        make_dir(plot_dir)
+        dh.make_dir(plot_dir)
         return plot_dir
 
     @staticmethod
@@ -344,24 +293,24 @@ class PathGenerator(object):
     def get_rendering_dir(trajectory_dir, rendering_no):
         rendering_base_dir = os.path.join(trajectory_dir, 'renderings')
         render_dir = os.path.join(rendering_base_dir, 'render_{}'.format(str(rendering_no).zfill(5)))
-        make_dir(render_dir)
+        dh.make_dir(render_dir)
         return render_dir
 
     @staticmethod
     def get_new_rendering_dir(trajectory_dir):
         rendering_base_dir = os.path.join(trajectory_dir, 'renderings')
-        make_dir(rendering_base_dir)
-        numstr = get_max_dirno(rendering_base_dir, 'render')
+        dh.make_dir(rendering_base_dir)
+        numstr = dh.get_max_dirno(rendering_base_dir, 'render')
         if numstr is None: numstr = 0
         numstr += 1
         new_dir = os.path.join(rendering_base_dir, 'render_{}'.format(str(numstr).zfill(5)))
-        make_dir(new_dir)
+        dh.make_dir(new_dir)
         return new_dir
 
     @staticmethod
     def get_rendering_plot_dir(rendering_dir):
         new_dir = os.path.join(rendering_dir, 'pngs')
-        make_dir(new_dir)
+        dh.make_dir(new_dir)
         return new_dir
 
     @staticmethod

@@ -1,16 +1,11 @@
 import numpy as np
-from roam_learning.path_generator import PathGenerator
-from sklearn.externals import joblib
+from roam_utils.provenance import PathGenerator
+import joblib
 import os
 
 
 class NumpyRandomState(object):
-    def __init__(self, seed_value=None):
-        self.seed_value = seed_value
-        if self.seed_value is not None:
-            self.rs = np.random.RandomState(self.seed_value)
-
-    def initialize_from_config(self, config_data, section_name):
+    def __init__(self, config_data, section_name):
         self.seed_value = config_data.getint(section_name, 'random_seed')
         self.rs = np.random.RandomState(self.seed_value)
 

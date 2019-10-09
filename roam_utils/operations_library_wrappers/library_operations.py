@@ -1,5 +1,5 @@
 class LibraryOperations(object):
-    def __init__(self):
+    def __init__(self, config_data, section_name):
         pass
 
     def initialize_from_config(self, config_data, section_name):

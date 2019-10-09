@@ -11,7 +11,7 @@ class TorchDevice(object):
             seed = int(config_data.get(section_name, 'random_seed'))
             torch.manual_seed(seed)
         if config_data.has_option(section_name, 'device_name'):
-            device_name  = config_data.get(section_name, 'device_name')
+            device_name = config_data.get(section_name, 'device_name')
             if device_name == 'gpu' and torch.cuda.is_available():
                 self.device = torch.device('cuda')
             elif device_name == 'gpu' and not torch.cuda.is_available():
