@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 import roam_utils.provenance.directory_helpers as dh
 
+
 class PathGenerator(object):
     def __init__(self):
         pass

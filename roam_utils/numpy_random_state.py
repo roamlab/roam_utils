@@ -1,6 +1,6 @@
 import numpy as np
-from roam_learning.path_generator import PathGenerator
-from sklearn.externals import joblib
+from roam_utils.provenance import PathGenerator
+import joblib
 import os
 
 

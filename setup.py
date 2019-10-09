@@ -13,5 +13,6 @@ install_requires = [
     'torch',
     'matplotlib',
     'configparser',
+    'joblib',
    ]
 )

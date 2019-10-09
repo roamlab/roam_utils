@@ -1,7 +1,7 @@
 import numpy as np
 from roam_utils.provenance import PathGenerator
 from roam_utils.trajectory.trajectory import Trajectory
-from sklearn.externals import joblib
+import joblib
 
 
 class NumpyTrajectory(Trajectory):
