@@ -1,13 +1,14 @@
 import inspect
-from roam_utils.provenance.path_generator import PathGenerator
 import logging
 import multiprocessing
+from roam_utils.provenance import PathGenerator
 
 
 class IndentFormatter(logging.Formatter):
     def __init__( self, fmt=None, datefmt=None ):
         logging.Formatter.__init__(self, fmt, datefmt)
         self.baseline = len(inspect.stack())
+
     def format( self, rec ):
         stack = inspect.stack()
         rec.indent = '    '*(len(stack)-12)

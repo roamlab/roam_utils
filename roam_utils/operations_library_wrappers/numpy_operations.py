@@ -5,7 +5,7 @@ from . import LibraryOperations
 class NumpyOperations(LibraryOperations):
 
     def __init__(self, config_data, section_name):
-        super().__init__()
+        super().__init__(config_data, section_name)
         self.device = None
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')

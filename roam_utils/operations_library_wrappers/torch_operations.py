@@ -1,10 +1,12 @@
 import torch
 import numpy as np
+from . import LibraryOperations
 
 
-class TorchOperations(object):
+class TorchOperations(LibraryOperations):
     
     def __init__(self, config_data, section_name):
+        super().__init__(config_data, section_name)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')
