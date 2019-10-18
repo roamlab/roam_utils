@@ -6,7 +6,6 @@ import unittest
 import shutil
 import torch
 from roam_utils.torch_device import TorchDevice
-from roam_utils.trajectory import NumpyTrajectory
 from roam_utils.trajectory import TorchTrajectory
 
 

@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 import os
 import numpy as np
-import configparser
 import unittest
 import shutil
-import torch
-from roam_utils.torch_device import TorchDevice
 from roam_utils.trajectory import NumpyTrajectory
-from roam_utils.trajectory import TorchTrajectory
 
 
 class TestNumpyTrajectory(unittest.TestCase):
