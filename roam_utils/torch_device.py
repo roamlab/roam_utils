@@ -2,11 +2,8 @@ import torch
 
 
 class TorchDevice(object):
-
-    def __init__(self):
+    def __init__(self, config_data, section_name):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    def initialize(self, config_data, section_name='pytorch'):
         if config_data.has_option(section_name, 'random_seed'):
             seed = int(config_data.get(section_name, 'random_seed'))
             torch.manual_seed(seed)

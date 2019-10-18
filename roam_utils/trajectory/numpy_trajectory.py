@@ -5,39 +5,27 @@ import joblib
 
 
 class NumpyTrajectory(Trajectory):
-    def __init__(self, X=None, U=None, cost_calculator=None):
-        super(NumpyTrajectory, self).__init__(X, U, cost_calculator)
-
-    def initialize(self, traj_length, state_dim, action_dim, cost_calculator=None):
-        Trajectory.initialize(self, traj_length, state_dim, action_dim, cost_calculator)
-        self.X = np.zeros([traj_length, state_dim, 1])
-        self.U = np.zeros([traj_length - 1, action_dim, 1])
-        self.time_array = np.zeros([traj_length, 1])
-        self.X[:] = np.nan
-        self.U[:] = np.nan
-        self.time_array[:] = np.nan
-
-    def init_from_X_U(self, X, U, cost_calculator=None, time_array=None):
-        traj_length = len(X)
-        state_dim = len(X[0])
-        action_dim = len(U[0])
-        Trajectory.initialize(self, traj_length, state_dim, action_dim, cost_calculator)
-        self.X = X
-        self.U = U
-        if time_array:
-            self.time_array = time_array
+    def __init__(self, traj_length=None, state_dim=None, action_dim=None):
+        super(NumpyTrajectory, self).__init__(traj_length, state_dim, action_dim)
+        if traj_length and state_dim and action_dim:
+            self.X = np.zeros([traj_length, state_dim, 1])
+            self.U = np.zeros([traj_length - 1, action_dim, 1])
+            self.time_array = np.zeros([traj_length, 1])
+            self.X[:] = np.nan
+            self.U[:] = np.nan
+            self.time_array[:] = np.nan
 
     def set_time_with_delta_t(self, delta_t):
         self.time_array = np.arange(0, len(self.X)*delta_t, delta_t)
 
     def set_t_idx(self, t, idx):
         self.time_array[idx] = t
-
-    def update_cost(self, x, u, x_pre=None):
-        self.cost += self.cost_calculator.get_l(x, u, x_pre=x_pre)
-
-    def update_final_cost(self, x, x_pre=None):
-        self.cost += self.cost_calculator.get_lf(x, x_pre=x_pre)
+    #
+    # def update_cost(self, x, u, x_pre=None):
+    #     self.cost += self.cost_calculator.get_l(x, u, x_pre=x_pre)
+    #
+    # def update_final_cost(self, x, x_pre=None):
+    #     self.cost += self.cost_calculator.get_lf(x, x_pre=x_pre)
 
     def reset_X(self):
         x0 = self.X[0]
@@ -53,21 +41,21 @@ class NumpyTrajectory(Trajectory):
     def set_U_idx(self, u, idx):
         self.U[idx] = u
 
-    def calculate_cost(self):
-        self.reset_cost()
-        for i in range(self.get_traj_length()-1):
-            self.update_cost(self.X[i], self.U[i], self.X[np.amax([i-1,0])])
-        self.update_final_cost(self.X[self.get_traj_length()-1], self.X[self.get_traj_length()-2])
-        return self.cost
+    # def calculate_cost(self):
+    #     self.reset_cost()
+    #     for i in range(self.get_traj_length()-1):
+    #         self.update_cost(self.X[i], self.U[i], self.X[np.amax([i-1,0])])
+    #     self.update_final_cost(self.X[self.get_traj_length()-1], self.X[self.get_traj_length()-2])
+    #     return self.cost
+    #
+    # def get_cost_numpy(self):
+    #     return self.cost
 
-    def get_cost_numpy(self):
-        return self.cost
-
-    def set_converged_flag(self, converged):
-        self.converged = converged
-
-    def set_improved_flag(self, improved):
-        self.improved = improved
+    # def set_converged_flag(self, converged):
+    #     self.converged = converged
+    #
+    # def set_improved_flag(self, improved):
+    #     self.improved = improved
 
     def reset_cost(self):
         self.cost = 0.0
