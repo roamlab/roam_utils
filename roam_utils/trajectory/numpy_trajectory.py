@@ -20,17 +20,6 @@ class NumpyTrajectory(Trajectory):
 
     def set_t_idx(self, t, idx):
         self.time_array[idx] = t
-    #
-    # def update_cost(self, x, u, x_pre=None):
-    #     self.cost += self.cost_calculator.get_l(x, u, x_pre=x_pre)
-    #
-    # def update_final_cost(self, x, x_pre=None):
-    #     self.cost += self.cost_calculator.get_lf(x, x_pre=x_pre)
-
-    def reset_X(self):
-        x0 = self.X[0]
-        self.X = np.zeros(self.X.shape)
-        self.set_X_idx(x0, 0)
 
     def set_T_idx(self, t, idx):
         self.time_array[idx] = t
@@ -40,25 +29,6 @@ class NumpyTrajectory(Trajectory):
 
     def set_U_idx(self, u, idx):
         self.U[idx] = u
-
-    # def calculate_cost(self):
-    #     self.reset_cost()
-    #     for i in range(self.get_traj_length()-1):
-    #         self.update_cost(self.X[i], self.U[i], self.X[np.amax([i-1,0])])
-    #     self.update_final_cost(self.X[self.get_traj_length()-1], self.X[self.get_traj_length()-2])
-    #     return self.cost
-    #
-    # def get_cost_numpy(self):
-    #     return self.cost
-
-    # def set_converged_flag(self, converged):
-    #     self.converged = converged
-    #
-    # def set_improved_flag(self, improved):
-    #     self.improved = improved
-
-    def reset_cost(self):
-        self.cost = 0.0
 
     def get_T_copy(self):
         return self.time_array.copy()

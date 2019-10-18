@@ -10,7 +10,7 @@ from roam_utils.trajectory import NumpyTrajectory
 from roam_utils.trajectory import TorchTrajectory
 
 
-class TestTrajectory(unittest.TestCase):
+class TestNumpyTrajectory(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -24,9 +24,8 @@ class TestTrajectory(unittest.TestCase):
         os.environ['EXPERIMENTS_DIR'] = cls.temporary_experiment_dir
         cls.delta_t = .01
         cls.horizon = 15
-        cls.X = np.arange(cls.horizon).reshape(-1, 1)
-        cls.U = np.arange(cls.horizon-1).reshape(-1, 1)
-        cls.time_array = cls.delta_t*np.arange(cls.horizon).reshape(-1, 1)
+        cls.state_dim = 5
+        cls.action_dim = 2
 
     @classmethod
     def tearDownClass(cls):
@@ -39,23 +38,21 @@ class TestTrajectory(unittest.TestCase):
         if cls.previous_experiment_dir is not None:
             os.environ['EXPERIMENTS_DIR'] = cls.previous_experiment_dir
 
-    def test_numpy_trajectory(self):
-        X = np.arange(self.horizon).reshape(-1, 1)
-        U = np.arange(self.horizon-1).reshape(-1, 1)
+    def test_preset(self):
+        trajectory1 = NumpyTrajectory(self.horizon, self.state_dim, self.action_dim)
+
+        X = np.zeros((self.horizon, self.state_dim, 1))
+        U = np.ones((self.horizon-1, self.action_dim, 1))
         time_array = self.delta_t*np.arange(self.horizon).reshape(-1, 1)
-        trajectory = NumpyTrajectory()
-        trajectory.preset(X, U, time_array)
+        X[:] = np.nan
+        U[:] = np.nan
+        time_array[:] = np.nan
+        trajectory2 = NumpyTrajectory()
+        trajectory2.preset(X, U, time_array)
 
-    def test_torch_trajectory(self):
-        config_data = configparser.ConfigParser()
-        config_data.read(os.path.join(os.environ['TEST_DIR'], 'test_trajectory/configs/torch_device.cfg'))
-        device = TorchDevice(config_data, 'torch_device')
-        X = torch.tensor(self.X)
-        U = torch.tensor(self.U)
-        time_array = torch.tensor(self.delta_t*np.arange(self.horizon))
-        trajectory = TorchTrajectory()
-        trajectory.preset(X, U, time_array)
-
+        self.assertTrue(len(trajectory1.get_X_copy().shape) == 3)
+        self.assertTrue(len(trajectory2.get_X_copy().shape) == 3)
+        self.assertTrue(np.allclose(trajectory1.get_U_copy(), trajectory2.get_U_copy(), equal_nan=True))
 
 
 if __name__ == '__main__':

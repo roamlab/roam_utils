@@ -1,6 +1,9 @@
 class Trajectory(object):
     def __init__(self, traj_length=None, state_dim=None, action_dim=None):
         super(Trajectory, self).__init__()
+        self.X = None
+        self.U = None
+        self.time_array = None
 
     def preset(self, X, U, time_array):
         self.X = X
@@ -14,9 +17,6 @@ class Trajectory(object):
         raise NotImplementedError
 
     def set_U_idx(self, u, idx):
-        raise NotImplementedError
-
-    def reset(self):
         raise NotImplementedError
 
     def get_t_copy(self, idx):
