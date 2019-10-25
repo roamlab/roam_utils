@@ -1,4 +1,9 @@
-class Trajectory(object):
+from abc import abstractmethod
+from class_registry import AutoRegister
+from roam_utils.factory import roam_utils_registry
+
+class Trajectory(metaclass=AutoRegister(roam_utils_registry)):
+    @abstractmethod
     def __init__(self, traj_length=None, state_dim=None, action_dim=None):
         super(Trajectory, self).__init__()
         self.X = None

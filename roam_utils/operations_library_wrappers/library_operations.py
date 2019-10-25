@@ -1,4 +1,10 @@
-class LibraryOperations(object):
+from abc import abstractmethod
+from class_registry import AutoRegister
+from roam_utils.factory import roam_utils_registry
+
+
+class LibraryOperations(metaclass=AutoRegister(roam_utils_registry)):
+    @abstractmethod
     def __init__(self, config_data, section_name):
         pass
 
