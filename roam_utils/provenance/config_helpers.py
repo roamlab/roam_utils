@@ -11,7 +11,8 @@ def copy_section_from_old_config_to_new_config(old_config, new_config, section, 
         new_section_name = section
     if new_config.has_section(new_section_name):
         if overwrite:
-            new_config.add_section(new_section_name)
+            for option, value in old_config.items(section):
+                new_config.set(new_section_name, option, value)
     else:
         new_config.add_section(new_section_name)
 
