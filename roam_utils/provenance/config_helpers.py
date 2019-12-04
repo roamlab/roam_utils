@@ -4,14 +4,16 @@ from roam_utils.provenance import PathGenerator
 from configparser import ConfigParser
 
 
-def copy_section_from_old_config_to_new_config(old_config, new_config, section, rename_section=None):
+def copy_section_from_old_config_to_new_config(old_config, new_config, section, rename_section=None, overwrite=False):
     if rename_section is not None:
         new_section_name = rename_section
     else:
         new_section_name = section
-    if not new_config.has_section(new_section_name):
+    if new_config.has_section(new_section_name):
+        if overwrite:
+            new_config.add_section(new_section_name)
+    else:
         new_config.add_section(new_section_name)
-
 
 def recursive_copy_section_from_old_config_to_new_config(config_from, config_to, section, rename_section=None):
     if rename_section is not None:
