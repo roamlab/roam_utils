@@ -3,10 +3,10 @@ import numpy as np
 from . import LibraryOperations
 
 
-class TorchOperations(LibraryOperations):
+class PytorchOperations(LibraryOperations):
     
     def __init__(self, config_data, section_name):
-        super().__init__(config_data, section_name)
+        LibraryOperations.__init__(self, config_data, section_name)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')
@@ -17,6 +17,7 @@ class TorchOperations(LibraryOperations):
         else:
             device_name = None
         self.initialize(random_seed, device_name)
+        print('DEVICE', self.device)
 
     def initialize_from_param_dict(self, param_dict):
         random_seed = param_dict['random_seed']
@@ -147,10 +148,13 @@ class TorchOperations(LibraryOperations):
     def eye(self, n, dtype=torch.float64, requires_grad=False):
         return torch.eye(n, dtype=dtype, device=self.device, requires_grad=requires_grad)
 
-    def zeros_like(self, input, dtype=torch.float64, requires_grad=False):
-        return torch.zeros_like(input, dtype=dtype, device=self.device, requires_grad=requires_grad)
+    def zeros_like(self, array, dtype=torch.float64, requires_grad=False):
+        return torch.zeros_like(array, dtype=dtype, device=self.device, requires_grad=requires_grad)
 
+    def is_nan(self, array):
+        return torch.isnan(array)
 
-
+    def tile(self, array, reps):
+        return array.repeat(array.shape[0],reps)
 
 

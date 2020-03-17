@@ -11,7 +11,7 @@ def make_dir(path):
         #
         # while not os.path.exists(head):
         #     make_dir(head)
-        os.makedirs(os.path.join(path), exist_ok=True)
+        os.makedirs(os.path.join(path)) #, exist_ok=True) ## for python 3
     return path
 
 

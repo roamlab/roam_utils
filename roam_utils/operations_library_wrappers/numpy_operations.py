@@ -3,9 +3,8 @@ from . import LibraryOperations
 
 
 class NumpyOperations(LibraryOperations):
-
     def __init__(self, config_data, section_name):
-        super().__init__(config_data, section_name)
+        LibraryOperations.__init__(self, config_data, section_name)
         self.device = None
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')
@@ -89,7 +88,7 @@ class NumpyOperations(LibraryOperations):
         return np.concatenate(concat_list, dim)
 
     def flatten(self, array):
-        return array.contiguous().view(1, -1)
+        return array.reshape((1, -1))
 
     def zeros(self, shape, dtype=np.float64):
         return np.zeros(shape, dtype=dtype)
@@ -103,9 +102,14 @@ class NumpyOperations(LibraryOperations):
     def eye(self, n, dtype=np.float64):
         return np.eye(n, dtype=dtype)
 
-    def zeros_like(self, input, dtype=np.float64):
-        return np.zeros_like(input, dtype=dtype)
+    def zeros_like(self, array, dtype=np.float64):
+        return np.zeros_like(array, dtype=dtype)
 
+    def tile(self, array, reps):
+        return np.tile(array, reps)
+
+    def insert(self, array, obj, values, axis=None):
+        return np.insert(array, obj, values, axis=axis)
 
 
 

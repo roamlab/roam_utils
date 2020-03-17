@@ -1,3 +1,3 @@
 from .library_operations import LibraryOperations
 from .numpy_operations import NumpyOperations
-from .torch_operations import TorchOperations
+from .pytorch_operations import PytorchOperations
