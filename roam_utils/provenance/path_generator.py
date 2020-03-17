@@ -1,16 +1,23 @@
+""" PathGenerator """
+
 import os
 import time
 from datetime import datetime
 from . import directory_helpers as dh
 
 
-class PathGenerator(object):
+#pylint: disable=R0904
+class PathGenerator:
+
+    """ Class provides staticmethods generating commonly used paths """
+
     def __init__(self):
         pass
 
     ##################################################
     ################### GENERAL ######################
     ##################################################
+
     @staticmethod
     def check_path_existance(path):
         if os.path.exists(path):
@@ -31,9 +38,6 @@ class PathGenerator(object):
         dh.make_dir(save_dir)
         return save_dir
 
-    @staticmethod
-    def get_loss_plot_pathname(plot_dir):
-        return os.path.join(plot_dir, 'loss_plot.png')
 
     @staticmethod
     def get_experiment_dir(path_to_experiment_dir, robot_name, experiment_type, experiment_no):
@@ -61,11 +65,6 @@ class PathGenerator(object):
         dh.make_dir(plot_dir)
         return plot_dir
 
-    @staticmethod
-    def get_dft_plot_dir(experiment_dir):
-        directory = os.path.join(experiment_dir, 'dft_analysis_plots')
-        dh.make_dir(directory)
-        return directory
     ##################################################
     ################### CONFIGS ######################
     ##################################################
@@ -130,18 +129,6 @@ class PathGenerator(object):
         return record_sim_dir
 
     @staticmethod
-    def get_serpenoid_curve_experiment_dir(experiments_dir, robot_name, experiment_no=None, experiment_name='experiment'):
-        experiments_dir = os.path.join(experiments_dir, 'experiments', robot_name, 'serpenoid_curve')
-        dh.make_dir(experiments_dir)
-        if experiment_no is None:
-            experiment_no = dh.get_max_dirno(experiments_dir, experiment_name+'_')
-            if experiment_no is None: experiment_no = 0
-            experiment_no += 1
-        experiments_dir = os.path.join(experiments_dir, experiment_name + '_' + str(experiment_no).zfill(5))
-        dh.make_dir(experiments_dir)
-        return experiments_dir
-
-    @staticmethod
     def get_trajectory_dir(experiment_dir, trajectory_no=None, trajectory_name=None):
         trajectory_dir = os.path.join(experiment_dir, 'trajectories')
         trajectory_dir_name = 'trajectory_'+str(trajectory_name) if (trajectory_name is not None) else 'trajectory'
@@ -193,16 +180,6 @@ class PathGenerator(object):
         dh.make_dir(new_dir)
         return new_dir
 
-    @staticmethod
-    def get_icra_trajectory_dir(experiment_dir, trajectory_name=None, icra_section_no=None):
-        trajectory_base_dir = os.path.join(experiment_dir, 'trajectories')
-        trajectory_dir_name = 'icra_section'
-        trajectory_dir_name = trajectory_dir_name+'_'+str(icra_section_no).zfill(5)
-        trajectory_dir_name = os.path.join(trajectory_dir_name, 'trajectory_'+str(trajectory_name).zfill(5))
-        # trajectory_dir_name = os.path.join(trajectory_dir_name, 'trajectory_'+str(trajectory_name).zfill(5)+'.sav')
-        new_dir = os.path.join(trajectory_base_dir, trajectory_dir_name)
-
-        return new_dir
 
     ##################################################
     #################  LOGGING  ######################
@@ -313,11 +290,6 @@ class PathGenerator(object):
         dh.make_dir(new_dir)
         return new_dir
 
-    @staticmethod
-    def get_gui_render_path(save_dir, count):
-        return os.path.join(save_dir, 'chain_gui_{}.png'.format(str(count).zfill(5)))
-
-
 
     ##################################################
     ################ RANDOM SAMPLERS #################
@@ -331,6 +303,3 @@ class PathGenerator(object):
         return path+'.sav'
 
 
-    @staticmethod
-    def get_icra_point_samples_section_dir(save_dir, section_no):
-        return 'scripts/icra_experiments/data/section_no_{}'
