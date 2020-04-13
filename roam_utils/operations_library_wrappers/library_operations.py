@@ -2,9 +2,6 @@ class LibraryOperations(object):
     def __init__(self, config_data, section_name):
         pass
 
-    def initialize_from_config(self, config_data, section_name):
-        raise NotImplementedError
-
     def stack_label_list(self, labels):
         raise NotImplementedError
 
