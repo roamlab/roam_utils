@@ -90,21 +90,7 @@ class PathGenerator:
         return os.path.join(load_dir, name+'.cfg')
 
 
-    ##################################################
-    ################## FORWARD MODEL #################
-    ##################################################
-    @staticmethod
-    def get_predictor_experiment_dir(path_to_experiment_dir, robot_name, direction, algorithm_name, predictor_no=None):
-        # returns experiment directory path
-        algorithm_dir = os.path.join(path_to_experiment_dir, 'experiments', robot_name,
-                                     '{}_predictors'.format(direction), algorithm_name)
-        if predictor_no is None:
-            max_dir_no = dh.get_max_dirno(algorithm_dir, 'predictor')
-            if max_dir_no is None: max_dir_no = 0
-            predictor_no = max_dir_no+1
-        experiment_dir = os.path.join(algorithm_dir,'predictor_' + str(predictor_no).zfill(2))
-        dh.make_dir(experiment_dir)
-        return experiment_dir
+
 
     ##################################################
     ################### TRAJECTORY ###################
@@ -302,4 +288,8 @@ class PathGenerator:
             path = path+'_'+name
         return path+'.sav'
 
+    @staticmethod
+    def get_problem_space_path(save_dir):
+        problem_space_path = os.path.join(save_dir, 'problem_space.sav')
+        return problem_space_path
 

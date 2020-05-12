@@ -88,7 +88,7 @@ class NumpyOperations(LibraryOperations):
         return np.concatenate(concat_list, dim)
 
     def flatten(self, array):
-        return array.contiguous().view(1, -1)
+        return array.reshape((1, -1))
 
     def zeros(self, shape, dtype=np.float64):
         return np.zeros(shape, dtype=dtype)
