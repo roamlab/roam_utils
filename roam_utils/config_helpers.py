@@ -16,6 +16,15 @@ def copy_section_from_old_config_to_new_config(old_config, new_config, section, 
     else:
         new_config.add_section(new_section_name)
 
+
+def recursive_create_dict_from_section(config_data, section_name, recursive_dict={}):
+    recursive_dict[section_name] = {}
+    for option, value in config_data.items(section_name):
+        recursive_dict[section_name][option] = value
+        if config_data.has_section(value):
+            recursive_create_dict_from_section(config_data, value, recursive_dict)
+    return recursive_dict
+
 def recursive_copy_section_from_old_config_to_new_config(config_from, config_to, section, rename_section=None):
     if rename_section is not None:
         new_section_name = rename_section
@@ -83,3 +92,12 @@ def save_config_with_custom_name(config_data, experiment_dir, custom_name):
     config_save_path = PathGenerator.get_config_with_custom_name(experiment_dir, custom_name)
     with open(config_save_path, 'w') as configfile:
         config_data.write(configfile)
+
+def get_config_data_from_dict(config_dict):
+    config_data = ConfigParser()
+    for section, section_dict in config_dict.items():
+        config_data.add_section(section)
+        for option, value in section_dict.items():
+            config_data.set(section, option, value)
+    return config_data
+

@@ -17,6 +17,7 @@ class PytorchOperations(LibraryOperations):
         else:
             device_name = None
         self.initialize(random_seed, device_name)
+        print('DEVICE', self.device)
 
     def initialize_from_param_dict(self, param_dict):
         random_seed = param_dict['random_seed']
