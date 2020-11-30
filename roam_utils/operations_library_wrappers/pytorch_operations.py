@@ -148,10 +148,13 @@ class PytorchOperations(LibraryOperations):
     def eye(self, n, dtype=torch.float64, requires_grad=False):
         return torch.eye(n, dtype=dtype, device=self.device, requires_grad=requires_grad)
 
-    def zeros_like(self, input, dtype=torch.float64, requires_grad=False):
-        return torch.zeros_like(input, dtype=dtype, device=self.device, requires_grad=requires_grad)
+    def zeros_like(self, array, dtype=torch.float64, requires_grad=False):
+        return torch.zeros_like(array, dtype=dtype, device=self.device, requires_grad=requires_grad)
 
+    def is_nan(self, array):
+        return torch.isnan(array)
 
-
+    def tile(self, array, reps):
+        return array.repeat(array.shape[0],reps)
 
 

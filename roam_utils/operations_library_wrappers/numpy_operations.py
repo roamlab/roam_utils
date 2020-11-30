@@ -102,9 +102,11 @@ class NumpyOperations(LibraryOperations):
     def eye(self, n, dtype=np.float64):
         return np.eye(n, dtype=dtype)
 
-    def zeros_like(self, input, dtype=np.float64):
-        return np.zeros_like(input, dtype=dtype)
+    def zeros_like(self, array, dtype=np.float64):
+        return np.zeros_like(array, dtype=dtype)
 
+    def tile(self, array, reps):
+        return np.tile(array, reps)
 
 
 
