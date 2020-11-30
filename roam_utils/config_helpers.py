@@ -1,7 +1,7 @@
 import ast
 import shutil
 from roam_utils.provenance import PathGenerator
-from configparser import ConfigParser
+import configparser
 
 
 def copy_section_from_old_config_to_new_config(old_config, new_config, section, rename_section=None, overwrite=False):
@@ -73,7 +73,7 @@ def pull_from_config(params_to_pull, config_data, section_name):
 
 
 def get_section_config_data(config_data, section_name):
-    section_config_data = ConfigParser()
+    section_config_data = configparser.ConfigParser()
     recursive_copy_section_from_old_config_to_new_config(config_data, section_config_data, section_name)
     return section_config_data
 
@@ -94,7 +94,7 @@ def save_config_with_custom_name(config_data, experiment_dir, custom_name):
         config_data.write(configfile)
 
 def get_config_data_from_dict(config_dict):
-    config_data = ConfigParser()
+    config_data = configparser.ConfigParser()
     for section, section_dict in config_dict.items():
         config_data.add_section(section)
         for option, value in section_dict.items():
