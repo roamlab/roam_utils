@@ -108,6 +108,9 @@ class NumpyOperations(LibraryOperations):
     def tile(self, array, reps):
         return np.tile(array, reps)
 
+    def insert(self, array, obj, values, axis=None):
+        return np.insert(array, obj, values, axis=axis)
+
 
 
 
