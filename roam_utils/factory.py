@@ -1,5 +1,10 @@
 import importlib
+import ray
 
+def ray_make(config_data, section_name):
+    entrypoint = config_data.get(section_name, 'entrypoint')
+    attr = get(entrypoint)
+    return attr.remote(config_data, section_name)
 
 def make(config_data, section_name):
     entrypoint = config_data.get(section_name, 'entrypoint')

@@ -7,7 +7,9 @@ class PytorchOperations(LibraryOperations):
     
     def __init__(self, config_data, section_name):
         LibraryOperations.__init__(self, config_data, section_name)
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = torch.device('cpu')
+
+        # self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')
         else:
@@ -157,4 +159,6 @@ class PytorchOperations(LibraryOperations):
     def tile(self, array, reps):
         return array.repeat(array.shape[0],reps)
 
+    def nan(self):
+        return float('nan')
 

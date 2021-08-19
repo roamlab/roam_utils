@@ -111,6 +111,9 @@ class NumpyOperations(LibraryOperations):
     def insert(self, array, obj, values, axis=None):
         return np.insert(array, obj, values, axis=axis)
 
+    def nan(self):
+        return np.nan
+
 
 
 
