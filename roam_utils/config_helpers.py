@@ -25,6 +25,19 @@ def recursive_create_dict_from_section(config_data, section_name, recursive_dict
             recursive_create_dict_from_section(config_data, value, recursive_dict)
     return recursive_dict
 
+
+def recursive_create_dict_for_wandb(config_data, section_name, recursive_dict={}):
+    recursive_dict[section_name] = {}
+    for option, value in config_data.items(section_name):
+        if config_data.has_section(value):
+            print('if true: value', value)
+            recursive_create_dict_for_wandb(config_data, value, recursive_dict)
+        else:
+            print('else', value)
+            recursive_dict[section_name][option] = value
+    return recursive_dict
+
+
 def recursive_copy_section_from_old_config_to_new_config(config_from, config_to, section, rename_section=None):
     if rename_section is not None:
         new_section_name = rename_section
@@ -86,12 +99,14 @@ def save_config(config_data, experiment_dir, experiment_no):
     config_save_path = PathGenerator.get_config_pathname(experiment_dir, experiment_no)
     with open(config_save_path, 'w') as configfile:
         config_data.write(configfile)
+    return config_save_path
 
 
 def save_config_with_custom_name(config_data, experiment_dir, custom_name):
     config_save_path = PathGenerator.get_config_with_custom_name(experiment_dir, custom_name)
     with open(config_save_path, 'w') as configfile:
         config_data.write(configfile)
+
 
 def get_config_data_from_dict(config_dict):
     config_data = configparser.ConfigParser()
