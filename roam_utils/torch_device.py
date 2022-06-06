@@ -6,6 +6,7 @@ class TorchDevice(object):
         # self.device = torch.device('cpu')
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         print('CUDA STATUS:', torch.cuda.is_available())
+
     def initialize(self, config_data, section_name='pytorch'):
         if config_data.has_option(section_name, 'random_seed'):
             seed = int(config_data.get(section_name, 'random_seed'))

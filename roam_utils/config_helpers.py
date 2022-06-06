@@ -25,6 +25,7 @@ def recursive_create_dict_from_section(config_data, section_name, recursive_dict
             recursive_create_dict_from_section(config_data, value, recursive_dict)
     return recursive_dict
 
+
 def recursive_create_dict_for_wandb(config_data, section_name, recursive_dict={}):
     recursive_dict[section_name] = {}
     for option, value in config_data.items(section_name):
@@ -35,6 +36,7 @@ def recursive_create_dict_for_wandb(config_data, section_name, recursive_dict={}
             print('else', value)
             recursive_dict[section_name][option] = value
     return recursive_dict
+
 
 def recursive_create_dict_for_wandb(config_data, section_name, recursive_dict={}):
     recursive_dict[section_name] = {}

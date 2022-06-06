@@ -8,7 +8,7 @@ class PytorchOperations(LibraryOperations):
     def __init__(self, config_data, section_name):
         LibraryOperations.__init__(self, config_data, section_name)
         # self.device = torch.device('cpu')
-
+        #
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         if config_data.has_option(section_name, 'random_seed'):
             random_seed = config_data.getint(section_name, 'random_seed')
@@ -22,9 +22,10 @@ class PytorchOperations(LibraryOperations):
         print('DEVICE', self.device)
         print("RANDOM SEED", self.random_seed)
 
-    def initialize_from_param_dict(self, param_dict):
+    def initialize_from_param_dict(self, param_dict, device_name=None):
         random_seed = param_dict['random_seed']
-        device_name = param_dict['device_name']
+        if device_name is None:
+            device_name = param_dict['device_name']
         self.initialize(random_seed, device_name)
 
     def initialize(self, random_seed, device_name):
